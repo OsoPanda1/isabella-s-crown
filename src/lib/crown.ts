@@ -94,19 +94,19 @@ export interface CognitiveModule {
 
 export interface RequestContext {
   requestId: string;
-  sessionId?: string;
-  actorId?: string;
+  sessionId?: string | undefined;
+  actorId?: string | undefined;
   locale: string;
   input: string;
   timestamp: string;
   source: "user" | "system" | "tool" | "document";
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, unknown> | undefined;
 }
 
 export interface IntentAssessment {
   category: IntentCategory;
   action: ActionKind;
-  target?: string;
+  target?: string | undefined;
   externalEffect: boolean;
   reversible: boolean;
   confidence: number;
@@ -115,16 +115,16 @@ export interface IntentAssessment {
 
 export interface IdentityAssessment {
   authenticated: boolean;
-  actorId?: string;
+  actorId?: string | undefined;
   roles: string[];
   permissions: string[];
   dataScopes: MemoryScope[];
-  authenticationMethod?: string;
+  authenticationMethod?: string | undefined;
 }
 
 export interface EvidenceAssessment {
   level: EvidenceLevel;
-  score?: number;
+  score?: number | undefined;
   sources: string[];
   verified: boolean;
   limitations: string[];
@@ -176,16 +176,16 @@ export interface ToolRequest {
   tool: string;
   action: ActionKind;
   arguments: Record<string, unknown>;
-  actorId?: string;
+  actorId?: string | undefined;
   requestedAt: string;
-  approvalToken?: string;
+  approvalToken?: string | undefined;
 }
 
 export interface ToolPolicy {
   name: string;
   allowedActions: ActionKind[];
   requiredRoles: string[];
-  requiredPermissions?: string[];
+  requiredPermissions?: string[] | undefined;
   requiresApproval: boolean;
   reversible: boolean;
   auditRequired: boolean;
@@ -199,8 +199,8 @@ export interface HumanApproval {
   issuedAt: string;
   expiresAt: string;
   action: ActionKind;
-  target?: string;
-  revoked?: boolean;
+  target?: string | undefined;
+  revoked?: boolean | undefined;
 }
 
 export interface CrownAuditEvent {
@@ -217,11 +217,11 @@ export interface CrownAuditEvent {
     | "response_generated"
     | "action_denied";
   crownVersion: string;
-  module?: ModuleId;
-  decisionStatus?: DecisionStatus;
-  risk?: RiskLevel;
+  module?: ModuleId | undefined;
+  decisionStatus?: DecisionStatus | undefined;
+  risk?: RiskLevel | undefined;
   message: string;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, unknown> | undefined;
 }
 
 export const MODULES: Record<ModuleId, CognitiveModule> = {
@@ -1226,8 +1226,8 @@ export function resolveAllowedTools(
 export function createRoutingDecision(
   context: RequestContext,
   options?: {
-    identity?: IdentityAssessment;
-    evidence?: EvidenceAssessment;
+    identity?: IdentityAssessment | undefined;
+    evidence?: EvidenceAssessment | undefined;
   },
 ): RoutingDecision {
   const identity = options?.identity ?? DEFAULT_IDENTITY;
@@ -1423,8 +1423,8 @@ export function canInvokeTool(
     category: "external_action",
     action: request.action,
     target:
-      typeof request.arguments.target === "string"
-        ? request.arguments.target
+      typeof request.arguments['target'] === "string"
+        ? request.arguments['target']
         : undefined,
     externalEffect: true,
     reversible: policy.reversible,
@@ -1536,8 +1536,8 @@ export function routeRequest(
   input: string,
   options?: {
     context?: Partial<Omit<RequestContext, "input" | "timestamp" | "requestId">>;
-    identity?: IdentityAssessment;
-    evidence?: EvidenceAssessment;
+    identity?: IdentityAssessment | undefined;
+    evidence?: EvidenceAssessment | undefined;
   },
 ): {
   context: RequestContext;
@@ -1613,7 +1613,7 @@ export function getDominantModule(
 
       return firstId.localeCompare(secondId);
     },
-  )[0][0];
+  )[0]![0];
 }
 
 export const CROWN = {
