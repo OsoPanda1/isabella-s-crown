@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { MODULES } from "@/lib/crown";
+import { MODULES } from "@/lib/crown-ui";
+import { useI18n } from "@/lib/i18n";
 import type { TerminalMessage } from "@/lib/useIsabella";
 
 function Meta({ label, value }: { label: string; value: string }) {
@@ -18,6 +19,7 @@ export function MessageStream({
   messages: TerminalMessage[];
   onRetry: () => void;
 }) {
+  const { t } = useI18n();
   const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export function MessageStream({
             <div key={m.id} className="animate-rise flex justify-end">
               <div className="glass max-w-[86%] rounded-2xl rounded-br-sm px-5 py-4 sm:max-w-[70%]">
                 <div className="mb-1.5 flex items-center justify-between gap-6">
-                  <Meta label="OPERADOR" value="ANUBIS" />
+                  <Meta label={t("stream.operator")} value="ANUBIS" />
                   <span className="font-mono text-[10px] text-muted-foreground">{m.timestamp}</span>
                 </div>
                 <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-foreground">
@@ -72,10 +74,10 @@ export function MessageStream({
                 </span>
                 {m.decision && (
                   <>
-                    <Meta label="TRACE" value={m.decision.traceId} />
-                    <Meta label="GATE" value={m.decision.policy.toUpperCase()} />
-                    <Meta label="RIESGO" value={m.decision.risk.toUpperCase()} />
-                    <Meta label="TONO" value={m.decision.emotionalTone} />
+                    <Meta label="TRACE" value={m.decision.traceId.slice(0, 12)} />
+                    <Meta label={t("stream.policy")} value={t(`policy.${m.decision.policy}`)} />
+                    <Meta label={t("stream.risk")} value={m.decision.risk.toUpperCase()} />
+                    <Meta label={t("stream.tone")} value={m.decision.emotionalTone} />
                   </>
                 )}
                 <span className="ml-auto font-mono text-[10px] text-muted-foreground">
@@ -101,7 +103,7 @@ export function MessageStream({
                   onClick={onRetry}
                   className="mt-4 rounded-lg border border-border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-platinum transition-colors hover:bg-secondary/60"
                 >
-                  Reintentar percepción
+                  {t("stream.retry")}
                 </button>
               )}
             </div>
