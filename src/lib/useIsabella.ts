@@ -6,7 +6,8 @@ import {
   type Preset,
   type PresetId,
   type RoutingDecision,
-} from "./crown";
+} from "./crown-ui";
+import { useI18n } from "./i18n";
 
 export interface TerminalMessage {
   id: string;
@@ -18,23 +19,26 @@ export interface TerminalMessage {
   error?: boolean;
 }
 
-const now = () =>
-  new Date().toLocaleTimeString("es-MX", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-
 const uid = () => Math.random().toString(36).slice(2, 11);
 
 export function useIsabella() {
+  const { lang, t } = useI18n();
+  const now = useCallback(
+    () =>
+      new Date().toLocaleTimeString(lang === "es" ? "es-MX" : "en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
+    [lang],
+  );
+
   const [messages, setMessages] = useState<TerminalMessage[]>([
     {
       id: "boot",
       role: "system",
-      content:
-        "Núcleo C.R.O.W.N. sincronizado · ISA · SOPHIA · ORION · ARGUS en línea · Nodo Cero, Real del Monte, Hidalgo. Presencia establecida.",
-      timestamp: now(),
+      content: "",
+      timestamp: "",
     },
   ]);
   const [presetId, setPresetId] = useState<PresetId>("prime");
@@ -50,7 +54,7 @@ export function useIsabella() {
       const text = input.trim();
       if (!text || isProcessing) return;
 
-      const routing = route(text, preset);
+      const routing = route(text, preset, lang);
       setDecision(routing);
 
       const userMsg: TerminalMessage = {
@@ -62,7 +66,7 @@ export function useIsabella() {
       const replyId = uid();
 
       const history = [...messages, userMsg]
-        .filter((m) => m.role !== "system" && !m.error)
+        .filter((m) => m.role !== "system" && !m.error && m.content)
         .slice(-16)
         .map((m) => ({
           role: m.role === "user" ? ("user" as const) : ("assistant" as const),
@@ -92,15 +96,15 @@ export function useIsabella() {
           headers: { "content-type": "application/json" },
           signal: controller.signal,
           body: JSON.stringify({
-            system: buildSystemPrompt(routing, preset),
+            system: buildSystemPrompt(routing, preset, lang),
             temperature: preset.temperature,
             messages: history,
           }),
         });
 
         if (!res.ok || !res.body) {
-          const detail = await res.json().catch(() => ({ error: "Fallo de percepción." }));
-          throw new Error(detail.error ?? "Fallo de percepción.");
+          const detail = await res.json().catch(() => ({ error: t("sys.fail") }));
+          throw new Error(detail.error ?? t("sys.fail"));
         }
 
         const reader = res.body.getReader();
@@ -125,7 +129,7 @@ export function useIsabella() {
               const delta: string | undefined = json.choices?.[0]?.delta?.content;
               if (delta) {
                 acc += delta;
-                setTokens((t) => t + 1);
+                setTokens((tk) => tk + 1);
                 setMessages((prev) =>
                   prev.map((m) => (m.id === replyId ? { ...m, content: acc } : m)),
                 );
@@ -139,17 +143,12 @@ export function useIsabella() {
         setMessages((prev) =>
           prev.map((m) =>
             m.id === replyId
-              ? {
-                  ...m,
-                  streaming: false,
-                  content:
-                    acc || "Silencio cognitivo: el núcleo no emitió síntesis para esta percepción.",
-                }
+              ? { ...m, streaming: false, content: acc || t("sys.silence") }
               : m,
           ),
         );
       } catch (err) {
-        const message = err instanceof Error ? err.message : "Interrupción del núcleo.";
+        const message = err instanceof Error ? err.message : t("sys.interrupt");
         setMessages((prev) =>
           prev.map((m) =>
             m.id === replyId
@@ -162,7 +161,7 @@ export function useIsabella() {
         abortRef.current = null;
       }
     },
-    [isProcessing, messages, preset],
+    [isProcessing, messages, preset, lang, now, t],
   );
 
   const stop = useCallback(() => abortRef.current?.abort(), []);
@@ -173,13 +172,24 @@ export function useIsabella() {
       {
         id: uid(),
         role: "system",
-        content: "Sesión purgada. Memoria inmediata reiniciada · trazabilidad preservada.",
+        content: t("sys.purged"),
         timestamp: now(),
       },
     ]);
     setDecision(null);
     setTokens(0);
-  }, []);
+  }, [now, t]);
 
-  return { messages, send, stop, reset, isProcessing, preset, presetId, setPresetId, decision, tokens };
+  return {
+    messages,
+    send,
+    stop,
+    reset,
+    isProcessing,
+    preset,
+    presetId,
+    setPresetId,
+    decision,
+    tokens,
+  };
 }
