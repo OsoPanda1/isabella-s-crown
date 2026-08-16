@@ -1,4 +1,5 @@
-import { MODULES, MODULE_ORDER, type ModuleId, type RoutingDecision } from "@/lib/crown";
+import { MODULES, MODULE_ORDER, type ModuleId, type RoutingDecision } from "@/lib/crown-ui";
+import { useI18n } from "@/lib/i18n";
 
 export function ModuleRail({
   decision,
@@ -7,6 +8,8 @@ export function ModuleRail({
   decision: RoutingDecision | null;
   active: boolean;
 }) {
+  const { t } = useI18n();
+
   return (
     <div className="space-y-3">
       {MODULE_ORDER.map((id: ModuleId) => {
@@ -39,7 +42,9 @@ export function ModuleRail({
                 {(weight * 100).toFixed(0)}%
               </span>
             </div>
-            <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground">{mod.role}</p>
+            <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground">
+              {t(`module.${id}`)}
+            </p>
             <div className="mt-2.5 h-px w-full overflow-hidden bg-border/60">
               <div
                 className="h-px transition-all duration-700 ease-out"
