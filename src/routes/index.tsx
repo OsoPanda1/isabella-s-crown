@@ -4,6 +4,7 @@ import { CommandLine } from "@/components/isabella/CommandLine";
 import { MessageStream } from "@/components/isabella/MessageStream";
 import { TelemetryPanel } from "@/components/isabella/TelemetryPanel";
 import { useIsabella } from "@/lib/useIsabella";
+import { useI18n } from "@/lib/i18n";
 
 const TITLE = "Isabella Villaseñor AI — Terminal Cognitivo C.R.O.W.N.";
 const DESC =
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const isabella = useIsabella();
+  const { t, lang, setLang } = useI18n();
   const [panel, setPanel] = useState(false);
   const lastInput = useRef("");
 
@@ -44,21 +46,28 @@ function Index() {
               Isabella Villaseñor
             </h1>
             <p className="mt-1 font-mono text-[9.5px] uppercase tracking-[0.32em] text-muted-foreground">
-              Nodo Cero · Real del Monte, Hidalgo · C.R.O.W.N.
+              {t("header.subtitle")}
             </p>
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden font-mono text-[10px] tracking-[0.2em] text-muted-foreground sm:inline">
-              {isabella.preset.name.toUpperCase()}
+              {t(`preset.${isabella.presetId}`).toUpperCase()}
             </span>
             <span
               className={`size-2 rounded-full bg-electric ${isabella.isProcessing ? "animate-breathe" : ""}`}
             />
             <button
+              onClick={() => setLang(lang === "es" ? "en" : "es")}
+              aria-label={t("header.langLabel")}
+              className="rounded-lg border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground"
+            >
+              {lang === "es" ? "EN" : "ES"}
+            </button>
+            <button
               onClick={() => setPanel((p) => !p)}
               className="rounded-lg border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground lg:hidden"
             >
-              {panel ? "Cerrar" : "Telemetría"}
+              {panel ? t("header.close") : t("header.telemetry")}
             </button>
           </div>
         </div>
