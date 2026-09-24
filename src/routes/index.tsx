@@ -51,7 +51,7 @@ function Index() {
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden font-mono text-[10px] tracking-[0.2em] text-muted-foreground sm:inline">
-              {isabella.preset.name.toUpperCase()}
+              {t(`preset.${isabella.presetId}`).toUpperCase()}
             </span>
             <span
               className={`size-2 rounded-full bg-electric ${isabella.isProcessing ? "animate-breathe" : ""}`}
