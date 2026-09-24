@@ -1,6 +1,7 @@
 import { PRESETS, type PresetId, type RoutingDecision } from "@/lib/crown-ui";
 import { useI18n } from "@/lib/i18n";
 import { ModuleRail } from "./ModuleRail";
+import type { UiEthicalAudit } from "@/lib/ethics.functions";
 
 const POLICY_COLOR: Record<string, string> = {
   allowed: "var(--argus)",
@@ -15,6 +16,7 @@ export function TelemetryPanel({
   tokens,
   turns,
   isProcessing,
+  audit,
 }: {
   presetId: PresetId;
   setPresetId: (id: PresetId) => void;
@@ -22,6 +24,7 @@ export function TelemetryPanel({
   tokens: number;
   turns: number;
   isProcessing: boolean;
+  audit: UiEthicalAudit | null;
 }) {
   const { t } = useI18n();
   const policy = decision?.policy ?? "allowed";
@@ -79,6 +82,41 @@ export function TelemetryPanel({
             </p>
           ))}
         </div>
+      </section>
+
+      <section className="glass rounded-2xl p-4">
+        <h2 className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+          {t("panel.ethics")}
+        </h2>
+        {audit ? (
+          <>
+            <p
+              className="mt-2.5 font-mono text-[12px] tracking-[0.16em]"
+              style={{ color: audit.valid ? "var(--argus)" : "var(--destructive)" }}
+            >
+              {audit.valid ? t("ethics.valid") : t("ethics.invalid")} · {(audit.score * 100).toFixed(0)}%
+            </p>
+            <p className="mt-2 break-all font-mono text-[9.5px] leading-relaxed text-muted-foreground" title={audit.hash}>
+              SHA-256 · {audit.hash.slice(0, 24)}…
+            </p>
+            <div className="mt-2 space-y-1">
+              {audit.flags.length === 0 ? (
+                <p className="text-[11px] text-muted-foreground">{t("ethics.noFlags")}</p>
+              ) : (
+                audit.flags.map((f) => (
+                  <p key={f.code} className="text-[11px] leading-snug text-muted-foreground">
+                    <span className="font-mono" style={{ color: f.severity === "critical" ? "var(--destructive)" : "var(--orion)" }}>
+                      {f.code}
+                    </span>{" "}
+                    {f.message}
+                  </p>
+                ))
+              )}
+            </div>
+          </>
+        ) : (
+          <p className="mt-2 text-[11px] text-muted-foreground">{t("ethics.none")}</p>
+        )}
       </section>
 
       <section className="glass rounded-2xl p-4">

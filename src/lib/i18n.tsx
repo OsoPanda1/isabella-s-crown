@@ -36,6 +36,11 @@ const ES: Dict = {
   "panel.latency": "Latencia",
   "panel.risk": "Riesgo",
   "panel.scopes": "SCOPES",
+  "panel.ethics": "Auditoría ética · SHA-256",
+  "ethics.valid": "ÍNTEGRA",
+  "ethics.invalid": "REVISIÓN REQUERIDA",
+  "ethics.noFlags": "Sin alertas éticas.",
+  "ethics.none": "Aún no hay síntesis auditada.",
 
   "policy.allowed": "AUTORIZADO",
   "policy.requires_approval": "RATIFICACIÓN HUMANA",
@@ -100,6 +105,11 @@ const EN: Dict = {
   "panel.latency": "Latency",
   "panel.risk": "Risk",
   "panel.scopes": "SCOPES",
+  "panel.ethics": "Ethical audit · SHA-256",
+  "ethics.valid": "INTACT",
+  "ethics.invalid": "REVIEW REQUIRED",
+  "ethics.noFlags": "No ethical flags.",
+  "ethics.none": "No synthesis audited yet.",
 
   "policy.allowed": "ALLOWED",
   "policy.requires_approval": "HUMAN RATIFICATION",

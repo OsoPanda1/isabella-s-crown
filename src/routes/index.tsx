@@ -97,6 +97,7 @@ function Index() {
             tokens={isabella.tokens}
             turns={turns}
             isProcessing={isabella.isProcessing}
+            audit={isabella.audit}
           />
         </div>
       </main>

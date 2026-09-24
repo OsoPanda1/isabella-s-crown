@@ -8,6 +8,7 @@ import {
   type RoutingDecision,
 } from "./crown-ui";
 import { useI18n } from "./i18n";
+import { auditSynthesis, type UiEthicalAudit } from "./ethics.functions";
 
 export interface TerminalMessage {
   id: string;
@@ -17,6 +18,7 @@ export interface TerminalMessage {
   decision?: RoutingDecision;
   streaming?: boolean;
   error?: boolean;
+  audit?: UiEthicalAudit;
 }
 
 const uid = () => Math.random().toString(36).slice(2, 11);
@@ -45,6 +47,7 @@ export function useIsabella() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [decision, setDecision] = useState<RoutingDecision | null>(null);
   const [tokens, setTokens] = useState(0);
+  const [audit, setAudit] = useState<UiEthicalAudit | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   const preset: Preset = PRESETS.find((p) => p.id === presetId) ?? (PRESETS[0] as Preset);
@@ -147,6 +150,18 @@ export function useIsabella() {
               : m,
           ),
         );
+
+        if (acc) {
+          try {
+            const result = await auditSynthesis({ data: { content: acc } });
+            setAudit(result);
+            setMessages((prev) =>
+              prev.map((m) => (m.id === replyId ? { ...m, audit: result } : m)),
+            );
+          } catch (auditErr) {
+            console.error("ARGUS audit failed", auditErr);
+          }
+        }
       } catch (err) {
         const message = err instanceof Error ? err.message : t("sys.interrupt");
         setMessages((prev) =>
@@ -178,6 +193,7 @@ export function useIsabella() {
     ]);
     setDecision(null);
     setTokens(0);
+    setAudit(null);
   }, [now, t]);
 
   return {
@@ -191,5 +207,6 @@ export function useIsabella() {
     setPresetId,
     decision,
     tokens,
+    audit,
   };
 }
