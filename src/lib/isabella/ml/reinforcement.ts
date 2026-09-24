@@ -162,8 +162,10 @@ function percentile(values: number[], percentileValue: number): number {
   const index = (sorted.length - 1) * percentileValue;
   const lower = Math.floor(index);
   const upper = Math.ceil(index);
-  if (lower === upper) return sorted[lower];
-  return sorted[lower] + (sorted[upper] - sorted[lower]) * (index - lower);
+  const lo = sorted[lower] ?? 0;
+  const hi = sorted[upper] ?? lo;
+  if (lower === upper) return lo;
+  return lo + (hi - lo) * (index - lower);
 }
 
 function resolveThresholds(

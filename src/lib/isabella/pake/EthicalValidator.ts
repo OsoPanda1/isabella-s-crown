@@ -60,7 +60,7 @@ function addFlag(
   message: string,
   evidence?: string,
 ): void {
-  flags.push({ code, severity, message, evidence });
+  flags.push(evidence === undefined ? { code, severity, message } : { code, severity, message, evidence });
 }
 
 function containsAny(content: string, terms: readonly string[]): string | undefined {
