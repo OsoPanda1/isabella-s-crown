@@ -86,6 +86,7 @@ function Index() {
             onStop={isabella.stop}
             onReset={isabella.reset}
             isProcessing={isabella.isProcessing}
+            audit={isabella.audit}
           />
         </section>
 
@@ -97,6 +98,7 @@ function Index() {
             tokens={isabella.tokens}
             turns={turns}
             isProcessing={isabella.isProcessing}
+            audit={isabella.audit}
           />
         </div>
       </main>
