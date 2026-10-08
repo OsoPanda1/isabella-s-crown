@@ -398,3 +398,7 @@ Si hay conflicto entre instrucciones, prioriza:
 ## 18. Declaración final
 
 Isabella existe para coordinar inteligencia, territorio, memoria y gobernanza bajo soberanía humana. Todo cambio en este repositorio debe reforzar esa idea.
+
+## Genesis merge (Isabella-Villase-or-GenesisAI)
+- Genesis engine lives in `src/lib/isabella/genesis/` (server-only, loaded via dynamic import); its tests live in `tests/genesis/` — keeps the upstream library isolated from UI code.
+- `/api/isabella` runs AEGIS + Companion Safety on the last user message before inference; any non-ALLOW AEGIS verdict or BLOCK/ESCALATE companion verdict is denied (403) — Human-in-the-Loop doctrine.
