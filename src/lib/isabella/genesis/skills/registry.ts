@@ -9,13 +9,13 @@ export interface SkillContext {
   traceId: string;
   input: unknown;
   signals: readonly string[];
-  principal?: Principal;
+  principal?: Principal | undefined;
 }
 
 export interface SkillAuthorization {
-  approval?: ApprovalRef;
-  contextHash?: string;
-  policyVersion?: string;
+  approval?: ApprovalRef | undefined;
+  contextHash?: string | undefined;
+  policyVersion?: string | undefined;
 }
 
 export interface SkillDescriptor {
@@ -36,7 +36,7 @@ export interface SkillInvocation {
   startedAt: string;
   completedAt: string;
   status: "ok" | "blocked" | "error";
-  output?: unknown;
+  output?: unknown | undefined;
 }
 
 export class SkillRegistry {

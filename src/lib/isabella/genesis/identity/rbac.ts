@@ -5,7 +5,7 @@ import type { Principal } from "./principal";
 export interface RolePolicy {
   name: string;
   permissions: readonly string[];
-  inherits?: readonly string[];
+  inherits?: readonly string[] | undefined;
 }
 
 export interface RbacPolicy {

@@ -17,9 +17,9 @@ export interface AdmissionRule {
 
 export interface AdmissionContext {
   methodId: string;
-  tenantId?: string;
-  principalId?: string;
-  remoteIp?: string;
+  tenantId?: string | undefined;
+  principalId?: string | undefined;
+  remoteIp?: string | undefined;
   rateKey: string;
 }
 

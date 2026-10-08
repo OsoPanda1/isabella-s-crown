@@ -28,15 +28,15 @@ export interface BookPiEventSeed {
   header: BookPiHeader;
   payload: JsonValue;
   schemaVersion: string;
-  meta?: BookPiEventMeta;
+  meta?: BookPiEventMeta | undefined;
 }
 
 export interface BookPiEventContext {
   sequence: number;
   prevHash: string;
   timestamp: string;
-  actorId?: string;
-  secret?: string;
+  actorId?: string | undefined;
+  secret?: string | undefined;
 }
 
 export interface BookPiEventRecord {
@@ -48,7 +48,7 @@ export interface BookPiEventRecord {
   integrity: string;
   hash: string;
   canonical: string;
-  actorId?: string;
+  actorId?: string | undefined;
   header: BookPiHeader;
   payload: JsonValue;
   schemaVersion: string;
@@ -64,7 +64,7 @@ export interface BookPiSeed {
   sequence: number;
   prevHash: string;
   timestamp: string;
-  actorId?: string;
+  actorId?: string | undefined;
   header: BookPiHeader;
   payload: JsonValue;
   schemaVersion: string;

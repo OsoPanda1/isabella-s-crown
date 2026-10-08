@@ -4,7 +4,7 @@ export interface TerritoryContext {
   jurisdiction: string;
   locale: string;
   language: string;
-  point?: GeoPoint;
+  point?: GeoPoint | undefined;
   pointsOfInterest: readonly string[];
   routes: readonly string[];
   policies: readonly string[];

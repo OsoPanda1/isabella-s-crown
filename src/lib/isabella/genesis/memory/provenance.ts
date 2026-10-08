@@ -1,9 +1,9 @@
 import { createHash } from "node:crypto";
 export interface ProvenanceSource {
   sourceId: string;
-  uri?: string;
-  title?: string;
-  publisher?: string;
+  uri?: string | undefined;
+  title?: string | undefined;
+  publisher?: string | undefined;
   retrievedAt: string;
   contentHash: string;
   trustTier: "PRIMARY" | "SECONDARY" | "TERTIARY" | "USER_PROVIDED" | "UNVERIFIED";

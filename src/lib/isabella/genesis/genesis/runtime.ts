@@ -21,7 +21,7 @@ import { synthesize, type CognitiveSynthesis, type CognitiveTask, type ExpertRes
 import { createSource, validateClaim, type ProvenanceClaim, type ProvenanceSource } from "../memory/provenance";
 
 export interface GenesisRuntimeInput extends CrownEvaluationInput, AdaptiveRequest {
-  memoryQuery?: string;
+  memoryQuery?: string | undefined;
 }
 
 export interface GenesisRuntimeDecision {
@@ -35,8 +35,8 @@ export interface GenesisRuntimeDecision {
 export interface GenesisToolDecision {
   admitted: boolean;
   aegis: AegisVerdict;
-  output?: unknown;
-  receipt?: ToolReceipt;
+  output?: unknown | undefined;
+  receipt?: ToolReceipt | undefined;
 }
 
 export class IsabellaGenesisRuntime {

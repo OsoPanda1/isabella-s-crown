@@ -17,9 +17,9 @@ export interface ToolDescriptor {
 }
 
 export interface ToolAuthorization {
-  approval?: ApprovalRef;
-  contextHash?: string;
-  policyVersion?: string;
+  approval?: ApprovalRef | undefined;
+  contextHash?: string | undefined;
+  policyVersion?: string | undefined;
 }
 
 export interface ToolReceipt {

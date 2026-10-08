@@ -11,8 +11,8 @@ export interface EngineResult {
   controlId: string;
   previousState: ControlState;
   nextState: ControlState;
-  evidenceRef?: string;
-  humanApprover?: string;
+  evidenceRef?: string | undefined;
+  humanApprover?: string | undefined;
 }
 
 const TRANSITIONS: Record<ControlState, readonly ControlState[]> = {

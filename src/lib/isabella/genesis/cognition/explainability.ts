@@ -6,7 +6,7 @@ export interface DecisionExplanation {
   humanReadable: string;
   factors: readonly string[];
   evidenceRefs: readonly string[];
-  policyVersion?: string;
+  policyVersion?: string | undefined;
   generatedAt: string;
 }
 

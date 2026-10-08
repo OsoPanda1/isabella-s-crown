@@ -123,16 +123,16 @@ export interface AnalyzeRequest {
   requestId: string;
   methodId: string;
   input: unknown;
-  tenantId?: string;
-  version?: string;
+  tenantId?: string | undefined;
+  version?: string | undefined;
 }
 
 export interface AnalyzeResponse {
   requestId: string;
   methodId: string;
   status: "ok" | "blocked" | "error";
-  output?: unknown;
-  traceId?: string;
+  output?: unknown | undefined;
+  traceId?: string | undefined;
   decision: {
     authority: string;
     capability: string;
@@ -213,7 +213,7 @@ export interface StageVerdict {
   stage: ExecutionStage;
   passed: boolean;
   reason: string;
-  evidenceRef?: string;
+  evidenceRef?: string | undefined;
 }
 
 export type SlotMapping = Record<InvariantSlot, string>;

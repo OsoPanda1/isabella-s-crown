@@ -23,9 +23,9 @@ export interface KnowledgeClaim {
   evidenceIds: readonly string[];
   epistemicState: EpistemicState;
   temporalState: TemporalState;
-  validFrom?: string;
-  validUntil?: string;
-  license?: string;
+  validFrom?: string | undefined;
+  validUntil?: string | undefined;
+  license?: string | undefined;
   provenance: Readonly<Record<string, string>>;
   contentHash: string;
   version: number;
@@ -35,11 +35,11 @@ export interface KnowledgeSource {
   sourceId: string;
   uri: string;
   title: string;
-  publisher?: string;
-  publishedAt?: string;
+  publisher?: string | undefined;
+  publishedAt?: string | undefined;
   retrievedAt: string;
   contentHash: string;
-  license?: string;
+  license?: string | undefined;
 }
 
 export interface KnowledgeProposal {

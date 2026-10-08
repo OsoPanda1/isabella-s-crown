@@ -6,7 +6,7 @@ export interface ConsentRecord {
   scope: readonly string[];
   grantedAt: string;
   grantedBy: "human" | "delegated";
-  revokedAt?: string;
+  revokedAt?: string | undefined;
 }
 
 export interface ConsentRegistryLike {

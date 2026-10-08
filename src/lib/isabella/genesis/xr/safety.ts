@@ -3,7 +3,7 @@ export interface XrSafetyEvent {
   sessionId: string;
   signal: XrSafetySignal;
   severity: "LOW"|"MEDIUM"|"HIGH"|"CRITICAL";
-  subjectId?: string;
+  subjectId?: string | undefined;
   at: string;
   source: "user_report"|"moderator"|"system";
 }

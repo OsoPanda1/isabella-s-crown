@@ -5,8 +5,8 @@ export interface ControlEvidence {
   evidenceId: string;
   controlId: string;
   kind: "TEST" | "BENCHMARK" | "SECURITY_REVIEW" | "HUMAN_REVIEW" | "RUNTIME_TELEMETRY" | "EXTERNAL_AUDIT";
-  uri?: string;
-  commitSha?: string;
+  uri?: string | undefined;
+  commitSha?: string | undefined;
   observedAt: string;
   passed: boolean;
   details: string;

@@ -4,24 +4,24 @@ export type PrincipalKind = "human" | "machine" | "service";
 export interface Principal {
   id: string;
   kind: PrincipalKind;
-  displayName?: string;
-  tenantId?: string;
+  displayName?: string | undefined;
+  tenantId?: string | undefined;
   roles: readonly string[];
   attributes: Readonly<Record<string, string | number | boolean>>;
-  approvalKeyId?: string;
+  approvalKeyId?: string | undefined;
 }
 
 export interface PrincipalContext {
   principal: Principal;
   scope: string;
   methodId: string;
-  requestId?: string;
-  traceId?: string;
+  requestId?: string | undefined;
+  traceId?: string | undefined;
 }
 
 export function createPrincipal(partial: Omit<Principal, "roles" | "attributes"> & {
-  roles?: readonly string[];
-  attributes?: Record<string, string | number | boolean>;
+  roles?: readonly string[] | undefined;
+  attributes?: Record<string, string | number | boolean> | undefined;
 }): Principal {
   return {
     id: partial.id, kind: partial.kind, displayName: partial.displayName, tenantId: partial.tenantId,

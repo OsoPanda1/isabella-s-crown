@@ -10,8 +10,8 @@ export type PdpEffect = "ALLOW" | "FLAG" | "DENY";
 export interface PdpDecision { effect: PdpEffect; reason: string; admitted: boolean; evidenceRef?: string; }
 export interface PdpRequest {
   principal: Principal; action: string; resource: string; methodId: string; tenantId?: string;
-  consent?: ConsentRequirement;
-  attributeContext?: Readonly<Record<string, string | number | boolean>>;
+  consent?: ConsentRequirement | undefined;
+  attributeContext?: Readonly<Record<string, string | number | boolean>> | undefined;
 }
 export interface AttributeCondition {
   name: string;
@@ -19,7 +19,7 @@ export interface AttributeCondition {
 }
 export interface PdpDeps {
   rbac: RbacPolicy; tenants?: TenantCatalog; consent?: ConsentRegistryLike;
-  attributeConditions?: readonly AttributeCondition[];
+  attributeConditions?: readonly AttributeCondition[] | undefined;
 }
 function deny(reason: string): PdpDecision { return { effect: "DENY", reason, admitted: false }; }
 

@@ -27,7 +27,7 @@ export interface VerificationInput {
   methodIdValid: boolean;
   riskTier: RiskTier | undefined;
   gateGranted: boolean;
-  gateReason?: string;
+  gateReason?: string | undefined;
   approvalProvided: boolean;
   governanceInvariantPreserved: boolean;
   registered: boolean;

@@ -26,12 +26,12 @@ export interface CrownEvaluationInput {
   methodId: string;
   principal: Principal;
   gate: CapabilityGate;
-  approval?: ApprovalRef;
+  approval?: ApprovalRef | undefined;
   action: string;
   resource: string;
-  contextHash?: string;
-  policyVersion?: string;
-  governanceInvariantPreserved?: boolean;
+  contextHash?: string | undefined;
+  policyVersion?: string | undefined;
+  governanceInvariantPreserved?: boolean | undefined;
 }
 
 /**

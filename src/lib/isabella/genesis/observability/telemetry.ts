@@ -20,7 +20,7 @@ export interface MetricPoint {
 export interface TraceSpan {
   traceId: string;
   spanId: string;
-  parentSpanId?: string;
+  parentSpanId?: string | undefined;
   name: string;
   startedAt: string;
   durationMs: number;

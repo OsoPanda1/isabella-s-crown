@@ -16,7 +16,7 @@ export interface HypercoreExecutionResult {
   decision: HypercoreDecision;
   cacheHit: boolean;
   speculativeAccepted: boolean;
-  output?: unknown;
+  output?: unknown | undefined;
 }
 const MODE_ACTIVATIONS: Record<HypercoreMode, HypercoreActivation[]> = {
   CRUISE: ["PREFIX_CACHE", "SEMANTIC_CACHE"],

@@ -11,11 +11,11 @@ export interface ModelDescriptor {
 }
 
 export interface GenerationRequest {
-  modelId?: string;
+  modelId?: string | undefined;
   prompt: string;
   maxTokens: number;
-  temperature?: number;
-  metadata?: Readonly<Record<string, string | number | boolean>>;
+  temperature?: number | undefined;
+  metadata?: Readonly<Record<string, string | number | boolean>> | undefined;
 }
 
 export interface GenerationResult {

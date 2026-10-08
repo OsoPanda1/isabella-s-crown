@@ -19,11 +19,11 @@ export function registerCapability(gate: CapabilityGate, descriptor: CapabilityD
 }
 export interface CapabilityRequest {
   principal: Principal;
-  approval?: ApprovalRef;
+  approval?: ApprovalRef | undefined;
   action: string;
   resource: string;
-  contextHash?: string;
-  policyVersion?: string;
+  contextHash?: string | undefined;
+  policyVersion?: string | undefined;
 }
 export function callGate(gate: CapabilityGate, methodId: string, req: CapabilityRequest): CapabilityVerdict {
   const descriptor = gate.descriptors.get(methodId);
