@@ -37,6 +37,25 @@ export const Route = createFileRoute("/api/isabella")({
 
         const { system, messages, temperature } = parsed.data;
 
+        // Genesis Policy Gate: AEGIS (inyección/seguridad) + Companion Safety sobre la última entrada humana.
+        const lastUser = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
+        const { inspectAegis } = await import("@/lib/isabella/genesis/security/aegis");
+        const { evaluateCompanionSafety } = await import("@/lib/isabella/genesis/companion/safety");
+        const aegis = inspectAegis(lastUser);
+        const companion = evaluateCompanionSafety(lastUser);
+        if (aegis.decision !== "ALLOW" || companion.action === "BLOCK" || companion.action === "ESCALATE") {
+          const reasons = [
+            ...aegis.findings.map((f) => f.kind),
+            ...companion.findings.map((f) => f.domain),
+          ].join(", ");
+          return new Response(
+            JSON.stringify({
+              error: `Policy Gate (AEGIS/Genesis) denegó la entrada: ${reasons || "riesgo alto"}.`,
+            }),
+            { status: 403, headers: { "content-type": "application/json" } },
+          );
+        }
+
         const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
           method: "POST",
           headers: {
