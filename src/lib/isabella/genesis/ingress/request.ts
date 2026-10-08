@@ -6,7 +6,7 @@ export interface RawIncoming {
   body: unknown; remoteIp?: string; protocol: string;
 }
 export interface NormalizedRequest {
-  requestId: string; traceId: string; methodId: string; tenantId?: string; principalId?: string;
+  requestId: string; traceId: string; methodId: string; tenantId?: string | undefined; principalId?: string | undefined;
   body: unknown; receivedAt: string; rawMethod: string; rawPath: string; headers: Record<string, string>;
 }
 export const MAX_HEADERS = 32;

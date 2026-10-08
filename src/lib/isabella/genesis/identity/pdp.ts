@@ -7,7 +7,7 @@ import { hasPermission, type RbacPolicy } from "./rbac";
 import { isolatedAccess, tenantIsActive, type TenantCatalog } from "./tenant";
 
 export type PdpEffect = "ALLOW" | "FLAG" | "DENY";
-export interface PdpDecision { effect: PdpEffect; reason: string; admitted: boolean; evidenceRef?: string; }
+export interface PdpDecision { effect: PdpEffect; reason: string; admitted: boolean; evidenceRef?: string | undefined; }
 export interface PdpRequest {
   principal: Principal; action: string; resource: string; methodId: string; tenantId?: string;
   consent?: ConsentRequirement | undefined;
