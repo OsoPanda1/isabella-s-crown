@@ -43,7 +43,7 @@ export const Route = createFileRoute("/api/isabella")({
         const { evaluateCompanionSafety } = await import("@/lib/isabella/genesis/companion/safety");
         const aegis = inspectAegis(lastUser);
         const companion = evaluateCompanionSafety(lastUser);
-        if (aegis.decision === "BLOCK" || companion.action === "BLOCK") {
+        if (aegis.decision !== "ALLOW" || companion.action === "BLOCK" || companion.action === "ESCALATE") {
           const reasons = [
             ...aegis.findings.map((f) => f.kind),
             ...companion.findings.map((f) => f.domain),
