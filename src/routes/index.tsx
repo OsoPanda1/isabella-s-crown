@@ -57,6 +57,12 @@ function Index() {
               className={`size-2 rounded-full bg-electric ${isabella.isProcessing ? "animate-breathe" : ""}`}
             />
             <Link
+              to="/sistemas"
+              className="rounded-lg border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground"
+            >
+              {lang === "es" ? "Sistemas" : "Systems"}
+            </Link>
+            <Link
               to="/matriz"
               className="rounded-lg border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground"
             >
