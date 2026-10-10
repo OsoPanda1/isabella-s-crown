@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { CommandLine } from "@/components/isabella/CommandLine";
 import { MessageStream } from "@/components/isabella/MessageStream";
@@ -56,6 +56,12 @@ function Index() {
             <span
               className={`size-2 rounded-full bg-electric ${isabella.isProcessing ? "animate-breathe" : ""}`}
             />
+            <Link
+              to="/matriz"
+              className="rounded-lg border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground"
+            >
+              {lang === "es" ? "Matriz" : "Matrix"}
+            </Link>
             <button
               onClick={() => setLang(lang === "es" ? "en" : "es")}
               aria-label={t("header.langLabel")}
