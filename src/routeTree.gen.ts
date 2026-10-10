@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MatrizRouteImport } from './routes/matriz'
+import { Route as SistemasRouteImport } from './routes/sistemas'
 import { Route as ApiEvolutionRouteImport } from './routes/api/evolution'
 import { Route as ApiIsabellaRouteImport } from './routes/api/isabella'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const MatrizRoute = MatrizRouteImport.update({
   id: '/matriz',
   path: '/matriz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SistemasRoute = SistemasRouteImport.update({
+  id: '/sistemas',
+  path: '/sistemas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiEvolutionRoute = ApiEvolutionRouteImport.update({
@@ -38,12 +44,14 @@ const ApiIsabellaRoute = ApiIsabellaRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/matriz': typeof MatrizRoute
+  '/sistemas': typeof SistemasRoute
   '/api/evolution': typeof ApiEvolutionRoute
   '/api/isabella': typeof ApiIsabellaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/matriz': typeof MatrizRoute
+  '/sistemas': typeof SistemasRoute
   '/api/evolution': typeof ApiEvolutionRoute
   '/api/isabella': typeof ApiIsabellaRoute
 }
@@ -51,20 +59,28 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/matriz': typeof MatrizRoute
+  '/sistemas': typeof SistemasRoute
   '/api/evolution': typeof ApiEvolutionRoute
   '/api/isabella': typeof ApiIsabellaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/matriz' | '/api/evolution' | '/api/isabella'
+  fullPaths: '/' | '/matriz' | '/sistemas' | '/api/evolution' | '/api/isabella'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/matriz' | '/api/evolution' | '/api/isabella'
-  id: '__root__' | '/' | '/matriz' | '/api/evolution' | '/api/isabella'
+  to: '/' | '/matriz' | '/sistemas' | '/api/evolution' | '/api/isabella'
+  id:
+    | '__root__'
+    | '/'
+    | '/matriz'
+    | '/sistemas'
+    | '/api/evolution'
+    | '/api/isabella'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MatrizRoute: typeof MatrizRoute
+  SistemasRoute: typeof SistemasRoute
   ApiEvolutionRoute: typeof ApiEvolutionRoute
   ApiIsabellaRoute: typeof ApiIsabellaRoute
 }
@@ -83,6 +99,13 @@ declare module '@tanstack/react-router' {
       path: '/matriz'
       fullPath: '/matriz'
       preLoaderRoute: typeof MatrizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sistemas': {
+      id: '/sistemas'
+      path: '/sistemas'
+      fullPath: '/sistemas'
+      preLoaderRoute: typeof SistemasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/evolution': {
@@ -105,6 +128,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MatrizRoute: MatrizRoute,
+  SistemasRoute: SistemasRoute,
   ApiEvolutionRoute: ApiEvolutionRoute,
   ApiIsabellaRoute: ApiIsabellaRoute,
 }
