@@ -10,11 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MatrizRouteImport } from './routes/matriz'
+import { Route as ApiEvolutionRouteImport } from './routes/api/evolution'
 import { Route as ApiIsabellaRouteImport } from './routes/api/isabella'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MatrizRoute = MatrizRouteImport.update({
+  id: '/matriz',
+  path: '/matriz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEvolutionRoute = ApiEvolutionRouteImport.update({
+  id: '/api/evolution',
+  path: '/api/evolution',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiIsabellaRoute = ApiIsabellaRouteImport.update({
@@ -25,27 +37,35 @@ const ApiIsabellaRoute = ApiIsabellaRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/matriz': typeof MatrizRoute
+  '/api/evolution': typeof ApiEvolutionRoute
   '/api/isabella': typeof ApiIsabellaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/matriz': typeof MatrizRoute
+  '/api/evolution': typeof ApiEvolutionRoute
   '/api/isabella': typeof ApiIsabellaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/matriz': typeof MatrizRoute
+  '/api/evolution': typeof ApiEvolutionRoute
   '/api/isabella': typeof ApiIsabellaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/isabella'
+  fullPaths: '/' | '/matriz' | '/api/evolution' | '/api/isabella'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/isabella'
-  id: '__root__' | '/' | '/api/isabella'
+  to: '/' | '/matriz' | '/api/evolution' | '/api/isabella'
+  id: '__root__' | '/' | '/matriz' | '/api/evolution' | '/api/isabella'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MatrizRoute: typeof MatrizRoute
+  ApiEvolutionRoute: typeof ApiEvolutionRoute
   ApiIsabellaRoute: typeof ApiIsabellaRoute
 }
 
@@ -56,6 +76,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/matriz': {
+      id: '/matriz'
+      path: '/matriz'
+      fullPath: '/matriz'
+      preLoaderRoute: typeof MatrizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/evolution': {
+      id: '/api/evolution'
+      path: '/api/evolution'
+      fullPath: '/api/evolution'
+      preLoaderRoute: typeof ApiEvolutionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/isabella': {
@@ -70,6 +104,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MatrizRoute: MatrizRoute,
+  ApiEvolutionRoute: ApiEvolutionRoute,
   ApiIsabellaRoute: ApiIsabellaRoute,
 }
 export const routeTree = rootRouteImport
